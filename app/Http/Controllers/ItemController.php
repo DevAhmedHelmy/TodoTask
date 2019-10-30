@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\ItemResource;
+use Symfony\Component\HttpFoundation\Response;
+use App\Todo;
 class ItemController extends Controller
 {
     /**
@@ -12,9 +14,9 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Todo $todo)
     {
-        //
+        return ItemResource::collection($todo->items);
     }
 
     /**
@@ -33,9 +35,12 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Todo $todo)
     {
-        //
+        
+        $todo->items()->create($request->all());
+       
+        return response("hello",Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -46,7 +51,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        return new ItemResource($item);
     }
 
     /**
@@ -69,7 +74,9 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $item->update(['name' => $request->name]);
+
+        return response('updated',Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -78,8 +85,9 @@ class ItemController extends Controller
      * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy(Todo $todo, Item $item)
     {
-        //
+        $item->delete();
+        return response('Deleted',Response::HTTP_ACCEPTED);
     }
 }

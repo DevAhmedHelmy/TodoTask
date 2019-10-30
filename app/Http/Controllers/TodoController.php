@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Todo;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\TodoResource;
 class TodoController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        return TodoResource::collection(Todo::all());
     }
 
     /**
@@ -52,7 +53,7 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        return new CategoryResource($category);
+        return new TodoResource($todo);
     }
 
     /**

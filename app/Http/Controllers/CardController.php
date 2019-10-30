@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Card;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\CardResource;
+use Symfony\Component\HttpFoundation\Response;
+use App\Item;
+use App\Todo;
 class CardController extends Controller
 {
     /**
@@ -12,9 +15,9 @@ class CardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Todo $todo,Item $item)
     {
-        //
+        return CardResource::collection($item->cards);
     }
 
     /**
@@ -33,9 +36,10 @@ class CardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Todo $todo,Item $item)
     {
-        //
+        $item->cards()->create($request->all());
+        return response("hello",Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -44,9 +48,9 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function show(Card $card)
+    public function show(Todo $todo,Item $item,Card $card)
     {
-        //
+         return new CardResource($card);
     }
 
     /**
@@ -67,9 +71,12 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Card $card)
+    public function update(Request $request, Todo $todo,Item $item,Card $card)
     {
-        //
+        $card->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
     }
 
     /**
@@ -78,8 +85,9 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Card $card)
+    public function destroy(Todo $todo,Item $item,Card $card)
     {
-        //
+        $card->delete();
+        return response('Deleted',Response::HTTP_ACCEPTED);
     }
 }

@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::apiResource('/todos','TodoController');
+
+Route::apiResource('/todos/{todo}/items','ItemController');
+
+Route::apiResource('/todos/{todo}/items/{item}/card','CardController');
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
