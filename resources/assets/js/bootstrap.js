@@ -1,4 +1,20 @@
+import VueRouter from 'vue-router';
+// Default SortableJS
+import Sortable from 'vue-sortable'
+
+Vue.use(Sortable);
+
+// // Core SortableJS (without default plugins)
+// import Sortable from 'sortablejs/modular/sortable.core.esm.js';
+
+// // Complete SortableJS (with all plugins)
+// import Sortable from 'sortablejs/modular/sortable.complete.esm.js';
 window._ = require('lodash');
+
+// to import vuerouter in windo
+Vue.use(VueRouter);
+
+
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

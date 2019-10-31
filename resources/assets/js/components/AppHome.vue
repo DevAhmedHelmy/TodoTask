@@ -6,7 +6,11 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <ul class="list-group" v-sortable>
+                            <li class="list-group-item">Foo</li>
+                            <li class="list-group-item">Bar</li>
+                            <li class="list-group-item">Baz</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -15,6 +19,7 @@
 </template>
 
 <script>
+ 
     export default {
         mounted() {
             console.log('Component mounted.')
