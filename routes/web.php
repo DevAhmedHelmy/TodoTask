@@ -11,6 +11,6 @@
 |
 */
 
-Route::view('/','home');
+Route::view('/','layouts.master');
 Route::view('/{any}','home');
 Route::view('/{any}/{any1}','home');
