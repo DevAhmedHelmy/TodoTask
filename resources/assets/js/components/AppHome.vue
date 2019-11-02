@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       app
+      v-if="loggedIn"
     >
       <v-list dense>
         <v-list-item link>
@@ -10,7 +11,7 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>Tasks</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -29,8 +30,20 @@
       color="indigo"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="loggedIn" />
+      <v-toolbar-title>Tasks</v-toolbar-title>
+       <v-spacer></v-spacer>
+      <v-toolbar-items>
+
+        <router-link
+          v-for="item in items"
+          :key="item.title"
+          :to="item.to"
+          v-if="item.show">
+          <v-btn text>{{item.title}}</v-btn>
+        </router-link>
+      </v-toolbar-items>
+
     </v-app-bar>
 
     <v-content>
@@ -60,8 +73,24 @@
     props: {
       source: String,
     },
-    data: () => ({
+    data(){
+      return{
       drawer: null,
-    }),
+      loggedIn:User.loggedIn(),
+      items:[
+           
+          {title:'Login', to:'/login',show: !User.loggedIn()},
+           
+          {title:'Logout', to:'/logout',show:User.loggedIn()},
+        ]
+      }
+      
+    },
+    created(){
+      EventBus.$on('logout',()=>{
+        User.logout();
+        this.$router.push({name:'login'})
+      });
+    }
   }
 </script>

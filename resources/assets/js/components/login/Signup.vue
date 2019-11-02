@@ -1,7 +1,9 @@
 <template>
-<v-container>
-
-
+<div class="text-md-center">
+  <h2>Login</h2>
+  <v-layout>
+    <v-flex xs6 offset-xs3>
+      <v-card>
   <v-form @submit.prevent="signup">
     <v-text-field
       v-model="form.name"
@@ -48,12 +50,17 @@
      
     <!-- submit -->
     <v-btn class="mr-4" type="submit">Sign Up</v-btn>
-    <v-btn @click="clear">clear</v-btn>
+     
     <router-link to="/login">
-          <v-btn color="blue">Login</v-btn>
+          <v-btn color="blue">login</v-btn>
         </router-link>
   </v-form>
-  </v-container>
+       </v-card>
+    </v-flex>
+  </v-layout>
+</div>
+  
+        
 </template>
 <script>
   import { validationMixin } from 'vuelidate'

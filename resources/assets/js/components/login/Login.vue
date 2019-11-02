@@ -1,32 +1,10 @@
 <template>
-  <v-app id="inspire">
-    <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="8"
-            md="4"
-          >
-            <v-card class="elevation-12">
-              <v-toolbar
-                color="primary"
-                dark
-                flat
-              >
-                <v-toolbar-title>Login form</v-toolbar-title>
-                <v-spacer />
-                 
-                 
-              </v-toolbar>
-              
-  <v-form @submit.prevent="login">
+<div class="text-md-center">
+  <h2>Login</h2>
+  <v-layout>
+    <v-flex xs6 offset-xs3>
+      <v-card>
+ <v-form @submit.prevent="login">
     <v-card-text>
     <v-text-field
       v-model="form.email"
@@ -48,20 +26,26 @@
     ></v-text-field>
      
 </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn type="submit" color="primary">Login</v-btn>
-              </v-card-actions>
-    
+<v-card-actions>
+   
+  <v-btn class="mr-4" type="submit" color="primary">Login</v-btn>
+  <router-link to="/signup">
+          <v-btn>Sign Up</v-btn>
+        </router-link>
+</v-card-actions>
+
    
   </v-form>
   
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
-  </v-app>
+      </v-card>
+    </v-flex>
+  </v-layout>
+</div>
+  
+              
+   
+  
+            
 </template>
 <script>
   import { validationMixin } from 'vuelidate'
