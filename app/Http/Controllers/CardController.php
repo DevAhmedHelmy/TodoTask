@@ -10,6 +10,10 @@ use App\Item;
 use App\Todo;
 class CardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt');
+    }
     /**
      * Display a listing of the resource.
      *

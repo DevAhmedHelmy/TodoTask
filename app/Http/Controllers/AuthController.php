@@ -15,16 +15,19 @@ class AuthController extends Controller
     {
         $this->middleware('jwt', ['except' => ['login','signup']]);
     }
-    public function signup(SignupRequest $request)
+    
+    public function signup(Request $request)
     {
         
         User::create($request->all());
+        return response()->json(['message' => 'created'], 200);
         return $this->login($request);
     }
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse());
+
      */
     public function login(Request $request)
     {

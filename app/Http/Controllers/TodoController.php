@@ -8,6 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\TodoResource;
 class TodoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt');
+    }
     /**
      * Display a listing of the resource.
      *

@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Todo;
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt');
+    }
     /**
      * Display a listing of the resource.
      *
