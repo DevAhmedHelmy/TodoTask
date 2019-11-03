@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\TodoResource;
 class TodoController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('jwt');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,11 +40,20 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        // use relationship for create new todo 
-        // auth()->user()->todos()->create($request->all());
+        
+        $this->validate($request,['name'=>'required']);
+        
 
-        Todo::create($request->all());
-        return response("hello",Response::HTTP_ACCEPTED);
+        // $newTodos = new Todo();
+        // $newTodos->name = $request->name;
+        // $newTodos->user_id = auth()->id();
+        // $newTodos->save();
+
+
+        // use relationship for create new todo 
+        $newTodos = auth()->user()->todos()->create(['name'=>$request->name]);
+         
+        return response(["hello" ,'todo'=>$newTodos,Response::HTTP_ACCEPTED]);
 
 
     }

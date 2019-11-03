@@ -21,9 +21,14 @@ let routes = [
         component: require('../components/login/Signup.vue').default
     },
     {
-        path: '/tasks',
-        name:'tasks',
-        component: require('../components/pages/Task.vue').default
+        path: '/todos',
+        name:'todos',
+        component: require('../components/pages/Todos.vue').default
+    },
+    {
+        path: '/SingleTodo/:id',
+        name:'SingleTodo',
+        component: require('../components/pages/SingleTodo.vue').default
     },
 ]
 

@@ -11,7 +11,7 @@ class ItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt');
+        $this->middleware('auth:api', ['except' => ['index','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -41,10 +41,13 @@ class ItemController extends Controller
      */
     public function store(Request $request, Todo $todo)
     {
-        
-        $todo->items()->create($request->all());
+        // if($todo->user_id !== \Auth::id())
+        // {
+        //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        // }
+        $item = $todo->items()->create($request->all());
        
-        return response("hello",Response::HTTP_ACCEPTED);
+        return response(["hello",'item'=>$item,Response::HTTP_ACCEPTED]);
     }
 
     /**
