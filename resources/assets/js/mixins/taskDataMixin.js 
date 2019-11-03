@@ -1,0 +1,26 @@
+import axios from 'axios';
+export default {
+
+    methods :{
+        fetchBoardsData() {
+            if (! token ) {this.$router.push('/login'); }
+           axios.get("boards?api_token="+token)
+          .then(response => {
+            this.boards = response.data.boards;
+          });
+        },
+
+        
+        storeBoard(){
+          this.editMode=false;
+          axios.post("boards/?api_token="+token,{name:this.BoardName})
+              .then(response => {
+                console.log(response);
+                let newList = response.data.board;
+                this.boards.push(newList);
+                this.BoardName='';
+          });
+        },
+      }
+      
+}

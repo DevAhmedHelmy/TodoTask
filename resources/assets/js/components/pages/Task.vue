@@ -1,92 +1,50 @@
 <template>
-  <div class="row">
-    <div class="col-2">
-      <div class="form-group">
-        <div
-          class="btn-group-vertical buttons"
-          role="group"
-          aria-label="Basic example"
-        >
-          <button class="btn btn-secondary" @click="add">Add</button>
-          <button class="btn btn-secondary" @click="replace">Replace</button>
-        </div>
+ <v-layout row wrap>
+            <v-flex grow pa-1 v-for="task in tasks" :key="task.id">
 
-        <div class="form-check">
-          <input
-            id="disabled"
-            type="checkbox"
-            v-model="enabled"
-            class="form-check-input"
-          />
-          <label class="form-check-label" for="disabled">DnD enabled</label>
-        </div>
-      </div>
-    </div>
+              <router-link style="cursor: pointer" :to="{name:'SingleBoard',params:{id:task.id}}" tag="span">
 
-    <div class="col-6">
-      <h3>Draggable {{ draggingInfo }}</h3>
+                <v-card dark color="green darken-1">
+                  <v-card-text>{{task.name}}</v-card-text>
+                </v-card>
 
-      <draggable
-        :list="list"
-        :disabled="!enabled"
-        class="list-group"
-        ghost-class="ghost"
-        :move="checkMove"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
-        <div
-          class="list-group-item"
-          v-for="element in list"
-          :key="element.name"
-        >
-          {{ element.name }}
-        </div>
-      </draggable>
-    </div>
-
-    <rawDisplayer class="col-3" :value="list" title="List" />
-  </div>
+              </router-link>
+            </v-flex>
+            <v-flex md3>
+                <!-- <v-card>
+                  <v-card-title class="gray">
+                    <v-text-field  @click.stop v-model="BoardName" label="Board Name" v-if="editMode" @keyup.enter="storeBoard"></v-text-field>
+                    <v-btn flat small @click.stop="editMode=true" v-else>Add a Board...</v-btn>
+                  </v-card-title>
+                </v-card> -->
+            </v-flex>
+          </v-layout>
 </template>
 
 <script>
 import draggable from "vuedraggable";
 let id = 1;
 export default {
-  name: "simple",
-  display: "Simple",
-  order: 0,
-  components: {
-    draggable
-  },
-  data() {
-    return {
-      enabled: true,
-      list: [
-        { name: "John", id: 0 },
-        { name: "Joao", id: 1 },
-        { name: "Jean", id: 2 }
-      ],
-      dragging: false
-    };
-  },
-  computed: {
-    draggingInfo() {
-      return this.dragging ? "under drag" : "";
-    }
-  },
-  methods: {
-    add: function() {
-      this.list.push({ name: "Juan " + id, id: id++ });
+  data(){
+        return{
+          drawer: true,
+           
+          BoardName:'',
+          editMode:false,
+          tasks:{}
+        }
     },
-    replace: function() {
-      this.list = [{ name: "Edgard", id: id++ }];
-    },
-    checkMove: function(e) {
-      window.console.log("Future index: " + e.draggedContext.futureIndex);
-    }
-  }
-};
+    created(){
+            // Make a request for a user with a given ID
+            axios.get('api/todos')
+            .then( res => this.tasks = res.data.data )
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            
+        }
+}
 </script>
 <style scoped>
 .buttons {
