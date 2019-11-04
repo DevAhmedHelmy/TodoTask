@@ -44,10 +44,11 @@
 <script>
 import draggable from 'vuedraggable';
 import Sortable from 'sortablejs';
-
+ 
 export default {
-  props:['list'],
+  
   components:{draggable},
+  props:['list'],
   data() {
     return {
      
@@ -61,6 +62,7 @@ export default {
   },
   created () {
     this.cards=this.list.cards;
+    console.log(this.list)
      
   },
 

@@ -12,7 +12,7 @@ class CardController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index','show']]);
+        $this->middleware('auth:api');
     }
     /**
      * Display a listing of the resource.
@@ -96,10 +96,18 @@ class CardController extends Controller
         //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         // }
         
-        
-        $card->update($request->all());
 
-        return response()->json(['message' => 'success', 'card' => $card], 200);
+        
+        // $card->update($request->all());
+        $card = Card::findOrFail($card->id);
+        $card->item_id = $request->item_id;
+        if($card->save()){
+            return response()->json(['message' => 'success','card' => $card], 200);
+        }else {
+            return response()->json(['message' => 'fail'], 200);
+        }
+
+        // return response()->json(['message' => 'success', 'card' => $card], 200);
         
     }
 
