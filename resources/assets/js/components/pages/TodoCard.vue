@@ -11,15 +11,26 @@
          
 
         <v-list-item-content>
-          <v-list-item-title v-text="card.name"></v-list-item-title>
-        </v-list-item-content>
+          <v-list-item-title v-text="card.name">
+               
 
+            </v-list-item-title> 
+           
+        </v-list-item-content>
+        <v-icon @click.stop="deleteCard(card.id)">mdi-delete</v-icon>
+        <v-icon>mdi-pencil</v-icon>
         
       </v-list-item>
       </draggable>
-      <v-list-tile>
-        <a href="#">Add card</a>
-      </v-list-tile>
+      <v-list-tilte>
+        <v-text-field @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
+        <v-text-field @click.stop v-model="cardData.description" label="Card description" v-if="list.id==editCardId"></v-text-field>
+        <v-btn depressed small color="primary" v-if="list.id==editCardId" @click="createCard(list.id)">Add Card</v-btn>
+        <v-btn class="mx-2" @click="editCardId=list.id" v-else small dark color="indigo">
+          <v-icon dark >mdi-plus</v-icon>
+        </v-btn>
+        
+      </v-list-tilte>
     </v-list>
   </v-card>
 		 
@@ -39,25 +50,24 @@ export default {
   data() {
     return {
       cards : {},
-      cardData:{name:''},
+      cardData:{name:'',description:''},
       editCardId : '',
     }
   },
   created () {
     this.cards=this.list.cards;
-    console.log(this.cards);
+     
   },
 
   methods:{
      
     createCard(listId) {
       this.editCardId=listId;
-      axios.post("/api/todos/"+this.list.todo_id+"/items/"+this.list.id+"/card",{name:this.cardData.name})
+      axios.post("/api/todos/"+this.list.todo_id+"/items/"+this.list.id+"/card",{name:this.cardData.name, description:this.cardData.description})
           .then(response => {
             let vm = this;
             vm.cards.push(response.data.card);
-            console.log(cards)
-            console.log(response.data.card)
+             
             vm.cardData='';
             vm.editCardId='';
 
@@ -76,7 +86,7 @@ export default {
         // response => {console.log(response); }
       );
     },
-    
+     
     onAdd(evt){
 
     // let fromListId = evt.from.getAttribute('listId');

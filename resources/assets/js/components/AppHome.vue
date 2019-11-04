@@ -87,7 +87,7 @@
       
     },
     created(){
-      this.redirectToLogin();
+    
 
       EventBus.$on('logout',()=>{
         User.logout();
@@ -96,13 +96,6 @@
       
     },
 
-    methods:{
-      redirectToLogin(){
-        if(!!User.loggedIn())
-        {
-          return this.$router.push({name:'login'})
-        }
-      }
-    }
+    
   }
 </script>

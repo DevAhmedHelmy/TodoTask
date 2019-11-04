@@ -46,8 +46,15 @@ class CardController extends Controller
      */
     public function store(Request $request, Todo $todo,Item $item)
     {
-        $item->cards()->create($request->all());
-        return response("hello",Response::HTTP_ACCEPTED);
+        if (Auth::user()->id !== $todo->user_id) {
+            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        }
+
+        $this->validate($request,[
+            'name' => 'required',
+            ]);
+        $newCard = $todo->items()->cards()->create($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
