@@ -5,7 +5,7 @@
        <v-card>
      
     <v-list>
-      <draggable v-model="cards" :options="{group:'cards'}" @add="onAdd" :listId="list.id" style="min-height: 25px" >
+      <draggable v-model="cards" :options="{group:'options'}" @add="onAdd" style="min-height: 25px" :itemID="list.id">
 
       <v-list-item v-for="card in cards" :key="card.id" :cardId="card.id">
          
@@ -45,21 +45,25 @@
 <script>
 import draggable from 'vuedraggable';
 import Sortable from 'sortablejs';
-
+ 
 export default {
-  props:['list'],
+  
   components:{draggable},
+  props:['list'],
   data() {
     return {
-      cards : {},
+      list:this.list,
+      cards : '',
       cardData:{name:'',description:''},
       editCardId : '',
       cardShow:false,
-      cardShowData:''
+      cardShowData:'',
+     
     }
   },
   created () {
     this.cards=this.list.cards;
+    console.log(this.list)
      
   },
 
@@ -78,7 +82,7 @@ export default {
       });
     },
     updateCard(cardId,listId){
-      axios.put("/api/card/"+cardId,{lists_id:listId})
+      axios.put("/api/card/"+cardId,{item_id:listId})
       .then(
         // response => {console.log(listId);console.log(cardId);console.log(response);}
       );
@@ -100,11 +104,11 @@ export default {
     },
      
     onAdd(evt){
-      
-    // let fromListId = evt.from.getAttribute('listId');
+       console.log(evt)
+    let fromListId = evt.from.getAttribute('itemID');
     let cardId = evt.item.getAttribute('cardId');
-    let toListId = evt.to.getAttribute('listId');
-console.log(toListId)
+    let toListId = evt.to.getAttribute('itemID');
+console.log(fromListId)
     this.updateCard(cardId,toListId);
   }
  
