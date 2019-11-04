@@ -92,7 +92,7 @@
     },
     created(){
       if(User.loggedIn()){
-        this.$router.push('tasks')
+        this.$router.push('todos')
       }
     },
     
@@ -106,7 +106,7 @@
          axios.post('/api/auth/signup',this.form)
           .then(res => {
               User.responseAfterLogin(res)
-              this.$router.push('tasks')
+              this.$router.push('todos')
               })
           .catch(function(error){console.log(error)})
           

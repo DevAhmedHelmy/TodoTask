@@ -87,7 +87,7 @@
     },
     created(){
       if(User.loggedIn()){
-        this.$router.push('tasks')
+        this.$router.push('todos')
       }
     },
     methods: {
@@ -97,7 +97,7 @@
       login(){
           
           User.login(this.form);
-          this.$router.push({name:'tasks'})
+          this.$router.push({name:'todos'})
       },
       clear () {
         this.$v.$reset()

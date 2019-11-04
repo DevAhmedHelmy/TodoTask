@@ -18,6 +18,7 @@ class TodoResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'user_name' => $this->user->name,
+            'lists' => ItemResource::collection($this->items),
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }

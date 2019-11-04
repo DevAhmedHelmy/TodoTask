@@ -17,7 +17,14 @@ Route::apiResource('/todos','TodoController');
 
 Route::apiResource('/todos/{todo}/items','ItemController');
 
-Route::apiResource('/todos/{todo}/items/{item}/card','CardController');
+Route::get('/todos/{todo}/items/{item}/card','CardController@index');
+Route::post('/todos/{todo}/items/{item}/card','CardController@store');
+Route::get('/card/{card}','CardController@show');
+
+Route::put('/card/{card}','CardController@update');
+Route::delete('/card/{card}','CardController@destroy');
+
+
 
 Route::group([
     'middleware' => 'api',

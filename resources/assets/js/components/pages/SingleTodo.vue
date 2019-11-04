@@ -17,8 +17,9 @@
                    <v-spacer></v-spacer>
 
                    <v-menu>
+                     
                       <v-btn icon v-slot:activator="{ on }">
-                        <v-icon>more_vert</v-icon>
+                        <v-icon>mdi-dots-vertical</v-icon>
                       </v-btn>
                       <v-list>
                         <v-list-title @click.stop="deleteList(list.id)">
@@ -28,7 +29,7 @@
                    </v-menu>
                 </v-toolbar>
 
-              <TodoCard :list="list"></TodoCard>
+              <todo-card :list="list"></todo-card>
                 
               </v-card>
             </v-flex>
@@ -82,12 +83,7 @@ export default {
   },
 
   methods : {
-    getItems(){
-      axios.get('/api/todos/'+this.todoId+'/items')
-            .then(response=>{
-              return this.lists = response.data.data;
-            })
-    },
+     
     getLists(){
       this.todos.map((todo)=> {
         if (todo.id == this.todoId) {
@@ -128,7 +124,7 @@ export default {
            axios.get("/api/todos")
           .then(response => {
             this.todos = response.data.data;
-            this.getItems();
+            this.getLists();
           });
         }
   }

@@ -19,6 +19,8 @@ class ItemResource extends JsonResource
             'name' => $this->name,
             'todo_id' => $this->todo_id,
             'todo_name' => $this->todo->name,
+            'todoId' => $this->todo->id,
+            'cards' => CardResource::collection($this->cards),
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }

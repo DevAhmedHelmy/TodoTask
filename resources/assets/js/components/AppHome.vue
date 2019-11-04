@@ -87,10 +87,22 @@
       
     },
     created(){
+      this.redirectToLogin();
+
       EventBus.$on('logout',()=>{
         User.logout();
         this.$router.push({name:'login'})
       });
+      
+    },
+
+    methods:{
+      redirectToLogin(){
+        if(!!User.loggedIn())
+        {
+          return this.$router.push({name:'login'})
+        }
+      }
     }
   }
 </script>

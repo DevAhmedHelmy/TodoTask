@@ -12,7 +12,7 @@ class CardController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt');
+        $this->middleware('auth:api', ['except' => ['index','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -21,6 +21,10 @@ class CardController extends Controller
      */
     public function index(Todo $todo,Item $item)
     {
+         
+
+       
+        
         return CardResource::collection($item->cards);
     }
 
@@ -52,7 +56,7 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo $todo,Item $item,Card $card)
+    public function show(Card $card)
     {
          return new CardResource($card);
     }
@@ -75,7 +79,7 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Todo $todo,Item $item,Card $card)
+    public function update(Request $request,Card $card)
     {
         $card->update([
             'name' => $request->name,
@@ -89,7 +93,7 @@ class CardController extends Controller
      * @param  \App\Card  $card
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo $todo,Item $item,Card $card)
+    public function destroy(Card $card)
     {
         $card->delete();
         return response('Deleted',Response::HTTP_ACCEPTED);

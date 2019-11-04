@@ -19,6 +19,7 @@ class CardResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'list_name' => $this->item->name,
+            
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }
