@@ -19,6 +19,7 @@ Route::apiResource('/todos/{todo}/items','ItemController');
 
 Route::get('/todos/{todo}/items/{item}/card','CardController@index');
 Route::post('/todos/{todo}/items/{item}/card','CardController@store');
+
 Route::get('/card/{card}','CardController@show');
 
 Route::put('/card/{card}','CardController@update');

@@ -46,15 +46,17 @@ class CardController extends Controller
      */
     public function store(Request $request, Todo $todo,Item $item)
     {
-        if (Auth::user()->id !== $todo->user_id) {
+        $this->validate($request,[
+            'name' => 'required',
+            'description' => 'required'
+            ]);
+        if (\Auth::user()->id !== $todo->user_id) {
             return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         }
 
-        $this->validate($request,[
-            'name' => 'required',
-            ]);
-        $newCard = $todo->items()->cards()->create($request->all());
-        return response()->json(['message' => 'success'], 200);
+        
+        $newCard = $todo->items()->find($item->id)->cards()->create($request->all());
+        return response()->json(['message' => 'success','card' => $newCard], 200);
     }
 
     /**
@@ -88,10 +90,17 @@ class CardController extends Controller
      */
     public function update(Request $request,Card $card)
     {
-        $card->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+         
+
+        if (\Auth::user()->id !== $card->item->todo->user_id) {
+            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        }
+        
+        
+        $card->update($request->all());
+
+        return response()->json(['message' => 'success', 'card' => $card], 200);
+        
     }
 
     /**
@@ -102,7 +111,17 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
-        $card->delete();
-        return response('Deleted',Response::HTTP_ACCEPTED);
+         
+
+        if (\Auth::user()->id !== $card->item->todo->user_id) {
+            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        }
+
+        if ($card->delete()) {
+            return response()->json(['status' => 'success', 'message' => 'Card Deleted Successfully']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
+         
     }
 }

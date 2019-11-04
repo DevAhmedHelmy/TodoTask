@@ -7,7 +7,7 @@
     <v-list>
       <draggable v-model="cards" :options="{group:'cards'}" @add="onAdd" :listId="list.id" style="min-height: 25px" >
 
-      <v-list-item v-for="card in cards" v-bind:key="card.id">
+      <v-list-item v-for="card in cards" :key="card.id" :cardId="card.id">
          
 
         <v-list-item-content>
@@ -17,8 +17,10 @@
             </v-list-item-title> 
            
         </v-list-item-content>
-        <v-icon @click.stop="deleteCard(card.id)">mdi-delete</v-icon>
+        
+        <v-icon @click.stop="showCard(card.id)">mdi-television</v-icon>
         <v-icon>mdi-pencil</v-icon>
+        <v-icon @click.stop="deleteCard(card.id)">mdi-delete</v-icon>
         
       </v-list-item>
       </draggable>
@@ -52,6 +54,8 @@ export default {
       cards : {},
       cardData:{name:'',description:''},
       editCardId : '',
+      cardShow:false,
+      cardShowData:''
     }
   },
   created () {
@@ -83,16 +87,24 @@ export default {
     deleteCard(cardId){
       axios.delete("/api/card/"+cardId)
       .then(
-        // response => {console.log(response); }
+        response => {console.log(response); }
       );
+    },
+    showCard(cardId){
+      this.cardShow = true
+      axios.get('/api/card/'+cardId)
+      .then(response=>{
+          this.cardShowData = response.data.data
+           
+      })
     },
      
     onAdd(evt){
-
+      
     // let fromListId = evt.from.getAttribute('listId');
     let cardId = evt.item.getAttribute('cardId');
     let toListId = evt.to.getAttribute('listId');
-
+console.log(toListId)
     this.updateCard(cardId,toListId);
   }
  
