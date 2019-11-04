@@ -2,13 +2,18 @@
  <v-layout row wrap>
             <v-flex grow pa-1 v-for="todo in todos" :key="todo.id">
 
+              
               <router-link style="cursor:pointer" :to="{name:'SingleTodo',params:{id:todo.id}}" tag="span">
 
                 <v-card dark color="green darken-1">
                   <v-card-text>{{todo.name}}</v-card-text>
+
                 </v-card>
 
               </router-link>
+
+              <v-btn @click.stop="deleteTodo(todo.id)">Delete</v-btn>
+              
             </v-flex>
             <v-flex md3>
                 <v-card>
@@ -36,12 +41,7 @@ export default {
     },
     created(){
             // Make a request for a user with a given ID
-            axios.get('api/todos')
-            .then( res => this.todos = res.data.data )
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+            this.getTodos();
             
         },
         methods:{
@@ -55,7 +55,25 @@ export default {
                   this.TodoName='';
             });
           },
+          deleteTodo(todoId){
+            axios.delete('/api/todos/'+todoId)
+            .then(
+              // response=>{console.log(response.data)}
+              this.getTodos()
+            )
+          },
+
+          getTodos(){
+          axios.get('api/todos')
+            .then( res => this.todos = res.data.data )
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
         }
+        },
+
+        
 }
 </script>
 <style scoped>

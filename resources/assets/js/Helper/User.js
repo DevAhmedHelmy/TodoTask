@@ -19,7 +19,7 @@ class User
         
         if(Token.isValid(access_token)){
             AppStoreage.store(username,access_token);
-            window.location = '/tasks';
+            window.location = '/todos';
         }
     }
 
@@ -41,7 +41,7 @@ class User
     logout()
     {
         AppStoreage.clear();
-        window.location = '/';
+        window.location = '/login';
     }
 
     name()

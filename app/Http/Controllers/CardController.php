@@ -50,9 +50,9 @@ class CardController extends Controller
             'name' => 'required',
             'description' => 'required'
             ]);
-        if (\Auth::user()->id !== $todo->user_id) {
-            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
-        }
+        // if (\Auth::user()->id !== $todo->user_id) {
+        //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        // }
 
         
         $newCard = $todo->items()->find($item->id)->cards()->create($request->all());
@@ -92,9 +92,9 @@ class CardController extends Controller
     {
          
 
-        if (\Auth::user()->id !== $card->item->todo->user_id) {
-            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
-        }
+        // if (\Auth::user()->id !== $card->item->todo->user_id) {
+        //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        // }
         
         
         $card->update($request->all());

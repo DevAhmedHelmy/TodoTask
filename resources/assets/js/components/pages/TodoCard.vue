@@ -1,11 +1,11 @@
 <template>
 
    
-     <div >
-       <v-card>
+    
+       <v-card style="margin: 0 10px 0 10px;">
      
     <v-list>
-      <draggable v-model="cards" :options="{group:'cards'}" @add="onAdd" :listId="list.id" style="min-height: 25px" >
+      <draggable v-model="cards" v-bind="{animation:200,group:'cards'}" @add="onAdd" style="min-height: 25px" v-on:listId="list.name">
 
       <v-list-item v-for="card in cards" :key="card.id" :cardId="card.id">
          
@@ -36,8 +36,7 @@
     </v-list>
   </v-card>
 		 
-	</div>
-  
+	  
       
 </template>
 
@@ -51,11 +50,13 @@ export default {
   components:{draggable},
   data() {
     return {
+     
       cards : {},
       cardData:{name:'',description:''},
       editCardId : '',
       cardShow:false,
-      cardShowData:''
+      cardShowData:'',
+      
     }
   },
   created () {
@@ -78,7 +79,7 @@ export default {
       });
     },
     updateCard(cardId,listId){
-      axios.put("/api/card/"+cardId,{lists_id:listId})
+      axios.put("/api/card/"+cardId,{item_id:listId})
       .then(
         // response => {console.log(listId);console.log(cardId);console.log(response);}
       );
@@ -100,11 +101,12 @@ export default {
     },
      
     onAdd(evt){
-      
-    // let fromListId = evt.from.getAttribute('listId');
+      // console.log(evt)
+    let fromListId = evt.from.getAttribute('listId');
     let cardId = evt.item.getAttribute('cardId');
     let toListId = evt.to.getAttribute('listId');
-console.log(toListId)
+    console.log(toListId);
+    console.log(evt.to)
     this.updateCard(cardId,toListId);
   }
  
@@ -112,3 +114,7 @@ console.log(toListId)
 
 }
 </script>
+
+<style scoped>
+
+</style>

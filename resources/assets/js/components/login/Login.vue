@@ -87,7 +87,7 @@
     },
     created(){
       if(User.loggedIn()){
-        this.$router.push('todos')
+        this.$router.push({name:'todos'})
       }
     },
     methods: {

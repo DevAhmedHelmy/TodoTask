@@ -10,7 +10,7 @@
  
           <v-layout row wrap>
             <v-flex md3 v-for="list in lists" :key="list.id">
-              <v-card class="gray lighten-2">
+              <v-card>
                 <v-toolbar class="green white--text" dark dense>
                   <v-text-field @click.stop v-model="listName" label="List Name" v-if="updateListId==list.id" @keyup.enter="updateList"></v-text-field>
                   <v-toolbar-title  @click.stop="updateListId=list.id" v-else>{{list.name}}</v-toolbar-title>
