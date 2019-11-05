@@ -3,7 +3,7 @@
   <v-card>
      
     <v-list>
-      <draggable v-model="cards" v-bind="{animation:200,group:'cards'}" @add="onAdd" style="min-height: 25px" v-on:listId="list.id">
+       <draggable v-model="cards" :options="{group:'cards'}" @add="onAdd" :listId="list.id" style="min-height: 25px" >
 
         <v-list-item class="tile" v-for="card in cards" :key="card.id" :cardId="card.id" >
          
@@ -87,8 +87,8 @@
       
 
       <v-list-tilte>
-        <v-text-field @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
-        <v-text-field @click.stop v-model="cardData.description" label="Card description" v-if="list.id==editCardId"></v-text-field>
+        <v-text-field class="card" @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
+        <v-text-field class="card" @click.stop v-model="cardData.description" label="Card description" v-if="list.id==editCardId"></v-text-field>
         <v-btn depressed small color="primary" v-if="list.id==editCardId" @click="createCard(list.id)">Add Card</v-btn>
         <v-btn class="mx-2" @click="editCardId=list.id" v-else small dark color="purple darken-4">
           <v-icon white>mdi-plus</v-icon>
@@ -113,9 +113,9 @@ import Sortable from 'sortablejs';
  
  
 export default {
-  
-  components:{draggable},
   props:['list'],
+  components:{draggable},
+  
   data() {
     return {
      dialog: false,
@@ -201,11 +201,8 @@ export default {
     },
     onAdd(evt){
       console.log(evt)
-    let fromListId = evt.from.getAttribute('listId');
     let cardId = evt.item.getAttribute('cardId');
     let toListId = evt.to.getAttribute('listId');
-    console.log(toListId);
-    // console.log(evt.to)
     this.updateCard(cardId,toListId);
   }
  
@@ -222,5 +219,9 @@ export default {
     color: white;
     text-align: left;
   }
+  .card{
+  padding-left: 5px
+}
+</style>
    
 </style>

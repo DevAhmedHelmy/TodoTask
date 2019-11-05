@@ -46,10 +46,18 @@ class CardController extends Controller
      */
     public function store(Request $request, Todo $todo,Item $item)
     {
-        $this->validate($request,[
+        $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required'
             ]);
+        
+        if ($validator->fails()) {
+    
+            //pass validator errors as errors object for ajax response
+
+          return response()->json(['errors'=>$validator->errors()]);
+        }
+        
         // if (\Auth::user()->id !== $todo->user_id) {
         //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
         // }
@@ -90,7 +98,7 @@ class CardController extends Controller
      */
     public function update(Request $request,Card $card)
     {
-         
+        
 
         // if (\Auth::user()->id !== $card->item->todo->user_id) {
         //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);

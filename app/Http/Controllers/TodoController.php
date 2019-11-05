@@ -95,6 +95,14 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
+        $validator = \Validator::make($request->all(), ['name'=> 'required']);
+        
+        if ($validator->fails()) {
+    
+            //pass validator errors as errors object for ajax response
+
+          return response()->json(['errors'=>$validator->errors()]);
+        }
         $todo->update(['name' => $request->name]);
 
         return response('updated',Response::HTTP_ACCEPTED);

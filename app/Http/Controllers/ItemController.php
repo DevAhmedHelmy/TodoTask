@@ -41,6 +41,14 @@ class ItemController extends Controller
      */
     public function store(Request $request, Todo $todo)
     {
+        $validator = \Validator::make($request->all(), ['name'=> 'required']);
+        
+        if ($validator->fails()) {
+    
+            //pass validator errors as errors object for ajax response
+
+          return response()->json(['errors'=>$validator->errors()]);
+        }
         // if($todo->user_id !== \Auth::id())
         // {
         //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
@@ -81,6 +89,14 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
+        $validator = \Validator::make($request->all(), ['name'=> 'required']);
+        
+        if ($validator->fails()) {
+    
+            //pass validator errors as errors object for ajax response
+
+          return response()->json(['errors'=>$validator->errors()]);
+        }
         $item->update(['name' => $request->name]);
 
         return response('updated',Response::HTTP_ACCEPTED);
