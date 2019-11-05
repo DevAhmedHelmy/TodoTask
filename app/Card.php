@@ -15,4 +15,9 @@ class Card extends Model
     {
         return $this->belongsTo('App\Item');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

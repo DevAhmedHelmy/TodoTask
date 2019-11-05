@@ -5,25 +5,41 @@
        <v-card style="margin: 0 10px 0 10px;">
      
     <v-list>
-      <draggable v-model="cards" v-bind="{animation:200,group:'cards'}" @add="onAdd" style="min-height: 25px" v-on:listId="list.name">
+      <draggable v-model="cards" v-bind="{animation:200,group:'cards'}" @add="onAdd" style="min-height: 25px" v-on:listId="list.id">
 
       <v-list-item v-for="card in cards" :key="card.id" :cardId="card.id">
          
 
         <v-list-item-content>
           <v-list-item-title v-text="card.name">
-               
+                
 
             </v-list-item-title> 
            
         </v-list-item-content>
         
-        <v-icon @click.stop="showCard(card.id)">mdi-television</v-icon>
-        <v-icon>mdi-pencil</v-icon>
-        <v-icon @click.stop="deleteCard(card.id)">mdi-delete</v-icon>
+        <v-icon size="15px" @click.stop="fetchComments(card.id)">fas fa-comments</v-icon>
+        <v-icon size="15px" @click.stop="showCard(card.id)">fas fa-eye</v-icon>
+        <v-icon size="15px" @click.stop="deleteCard(card.id)">fas fa-trash-alt</v-icon> 
         
       </v-list-item>
+        
       </draggable>
+      <v-list-item v-for="comment in comments" :key="comment.id">
+        <v-list-item-title v-text="comment.comment">
+                      
+
+          </v-list-item-title>
+         
+      </v-list-item>
+      <v-list-tilte>
+        <v-text-field @click.stop v-model="commentData.comment" label="Comment" v-if="showComment" @keyup.enter="storeComment()" ></v-text-field>
+        
+        <v-btn depressed small color="primary" v-if="list.id==editCardId" @click="createCard(list.id)">Add Card</v-btn>
+         
+        
+      </v-list-tilte>
+
       <v-list-tilte>
         <v-text-field @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
         <v-text-field @click.stop v-model="cardData.description" label="Card description" v-if="list.id==editCardId"></v-text-field>
@@ -33,6 +49,7 @@
         </v-btn>
         
       </v-list-tilte>
+
     </v-list>
   </v-card>
 		 
@@ -45,6 +62,7 @@
 import draggable from 'vuedraggable';
 import Sortable from 'sortablejs';
  
+ 
 export default {
   
   components:{draggable},
@@ -54,15 +72,21 @@ export default {
      
       cards : {},
       cardData:{name:'',description:''},
+      commentData:{comment:''},
       editCardId : '',
       cardShow:false,
       cardShowData:'',
+      comments:{},
+      showComment:false
+       
       
     }
   },
   created () {
     this.cards=this.list.cards;
-    console.log(this.list)
+    this.getComments();
+    
+     
      
   },
 
@@ -101,14 +125,37 @@ export default {
            
       })
     },
-     
+    // to store comment
+      storeComment(cardId){
+        console.log(cardId);
+      },
+
+    // to get all comments
+    getComments(){
+      axios.get('/api/comments')
+      .then(response=>{
+        // console.log(response.data.data)
+      })
+    },
+     fetchComments(cardId) {
+       this.showComment = true;
+        axios.get(`/api/comments/` + cardId)
+        
+            .then(response => {
+            this.comments = response.data.comments
+             
+
+            // or for paginated results
+            // this.comments = response.data.data
+        }).catch()
+    },
     onAdd(evt){
-      // console.log(evt)
+      console.log(evt)
     let fromListId = evt.from.getAttribute('listId');
     let cardId = evt.item.getAttribute('cardId');
     let toListId = evt.to.getAttribute('listId');
     console.log(toListId);
-    console.log(evt.to)
+    // console.log(evt.to)
     this.updateCard(cardId,toListId);
   }
  
