@@ -17,28 +17,74 @@
             </v-list-item-title> 
            
         </v-list-item-content>
+         
         
-        <v-icon size="15px" @click.stop="fetchComments(card.id)">fas fa-comments</v-icon>
-        <v-icon size="15px" @click.stop="showCard(card.id)">fas fa-eye</v-icon>
-        <v-icon size="15px" @click.stop="deleteCard(card.id)">fas fa-trash-alt</v-icon> 
+         
         
+        <!-- to show comment -->
+        <div class="text-center">
+            <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              
+        <template v-slot:activator="{ on }">
+                <v-btn 
+                  icon
+                  color="red lighten-2"
+                  dark
+                  v-on="on"
+                  @click.stop="fetchComments(card.id)"
+                >
+                  <v-icon>fas fa-eye</v-icon>
+                </v-btn>
+              </template> 
+              <v-card>
+                <v-card-title
+                  class="headline grey lighten-2"
+                  primary-title
+                >
+                  Show Card
+                </v-card-title>
+
+                <v-card-text>
+                  Card Name : {{card.name}}
+
+                  
+                </v-card-text>
+                <v-card-text>Card description : {{card.description}}</v-card-text>
+
+                <v-card-text>Comments : </v-card-text>
+                <v-card-text v-for="comment in comments" :key="comment.id">
+                  {{comment.comment}}
+                  {{comment.created_at}}
+                </v-card-text>
+                
+                <v-divider></v-divider>
+
+
+                <v-list-tilte>
+                    <v-text-field @click.stop v-model="commentData.comment" label="Comment" v-if="showComment" @keyup.enter="storeComment()" ></v-text-field>
+                    
+                </v-list-tilte>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="dialog = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+          <v-icon color="red lighten-2" dark size="15px" @click.stop="deleteCard(card.id)">fas fa-trash-alt</v-icon> 
       </v-list-item>
         
       </draggable>
-      <v-list-item v-for="comment in comments" :key="comment.id">
-        <v-list-item-title v-text="comment.comment">
-                      
-
-          </v-list-item-title>
-         
-      </v-list-item>
-      <v-list-tilte>
-        <v-text-field @click.stop v-model="commentData.comment" label="Comment" v-if="showComment" @keyup.enter="storeComment()" ></v-text-field>
-        
-        <v-btn depressed small color="primary" v-if="list.id==editCardId" @click="createCard(list.id)">Add Card</v-btn>
-         
-        
-      </v-list-tilte>
+      
 
       <v-list-tilte>
         <v-text-field @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
@@ -49,6 +95,9 @@
         </v-btn>
         
       </v-list-tilte>
+       
+      
+
 
     </v-list>
   </v-card>
@@ -69,7 +118,7 @@ export default {
   props:['list'],
   data() {
     return {
-     
+     dialog: false,
       cards : {},
       cardData:{name:'',description:''},
       commentData:{comment:''},
@@ -94,6 +143,7 @@ export default {
      
     createCard(listId) {
       this.editCardId=listId;
+      
       axios.post("/api/todos/"+this.list.todo_id+"/items/"+this.list.id+"/card",{name:this.cardData.name, description:this.cardData.description})
           .then(response => {
             let vm = this;
