@@ -1,29 +1,35 @@
 <template>
- <v-layout row wrap>
-            <v-flex grow pa-1 v-for="todo in todos" :key="todo.id">
-
+ <v-row class="mb-6">
+    <v-col grow pa-1 v-for="todo in todos" :key="todo.id">
+        <v-card dark color="green darken-1">
+          
+            <v-app-bar
+              dark
+              color="green">
               
-              <router-link style="cursor:pointer" :to="{name:'SingleTodo',params:{id:todo.id}}" tag="span">
-
-                <v-card dark color="green darken-1">
-                  <v-card-text>{{todo.name}}</v-card-text>
-
-                </v-card>
-
+            <router-link style="cursor:pointer" :to="{name:'SingleTodo',params:{id:todo.id}}" tag="span">
+              <v-toolbar-title>{{todo.name}}</v-toolbar-title>
               </router-link>
+              <v-spacer></v-spacer>
 
-              <v-btn @click.stop="deleteTodo(todo.id)">Delete</v-btn>
-              
-            </v-flex>
-            <v-flex md3>
-                <v-card>
-                  <v-card-title class="gray">
-                    <v-text-field  @click.stop v-model="TodoName" label="Todo Name" v-if="editMode" @keyup.enter="storeTodo"></v-text-field>
-                    <v-btn small @click.stop="editMode=true" v-else>Add a Todo...</v-btn>
-                  </v-card-title>
-                </v-card>
-            </v-flex>
-          </v-layout>
+              <v-btn icon>
+                <v-icon @click.stop="deleteTodo(todo.id)">fas fa-trash-alt</v-icon>
+              </v-btn>
+            </v-app-bar>
+        </v-card>
+
+    </v-col>
+    <v-col>
+        <v-card>
+          <v-card-title class="gray">
+            <v-text-field  @click.stop v-model="TodoName" label="Todo Name" v-if="editMode" @keyup.enter="storeTodo">
+
+            </v-text-field>
+            <v-btn small @click.stop="editMode=true" v-else>Add a Todo...</v-btn>
+          </v-card-title>
+        </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -36,7 +42,8 @@ export default {
            
           TodoName:'',
           editMode:false,
-          todos:{}
+          todos:{},
+          errors:[]
         }
     },
     created(){
@@ -49,10 +56,13 @@ export default {
             this.editMode=false;
             axios.post("/api/todos",{name:this.TodoName})
                 .then(response => {
-                  console.log(response);
+                  // console.log(response);
                   let newList = response.data.todo;
                   this.todos.push(newList);
                   this.TodoName='';
+            }).catch(function (error) {
+                this.errors = error.response.data.errors
+                console.log(error.response.data.errors)
             });
           },
           deleteTodo(todoId){

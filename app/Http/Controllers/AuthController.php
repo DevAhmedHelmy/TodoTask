@@ -2,8 +2,9 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\SignupRequest;
 use App\User;
+use JWTAuth;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+// use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jwt', ['except' => ['login','signup']]);
+        $this->middleware('auth:api', ['except' => ['login','signup']]);
     }
 
 
@@ -103,5 +104,10 @@ class AuthController extends Controller
     public function payload()
     {
         return auth()->payload();
+    }
+
+    public function profile()
+    {
+        return auth('api')->user;
     }
 }

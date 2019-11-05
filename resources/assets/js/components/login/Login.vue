@@ -67,24 +67,7 @@
       
        
     },
-    computed: {
-       
-       
-      passwordErrors () {
-        const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.maxLength && errors.push('password min be at most 4 characters long')
-        !this.$v.password.required && errors.push('password is required.')
-        return errors
-      },
-      emailErrors () {
-        const errors = []
-        if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
-        return errors
-      },
-    },
+     
     created(){
       if(User.loggedIn()){
         this.$router.push({name:'todos'})

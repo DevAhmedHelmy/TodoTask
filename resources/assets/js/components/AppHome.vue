@@ -11,7 +11,14 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Tasks</v-list-item-title>
+            <v-list-item-title>
+              <router-link class="link" to="/todos" style="cursor:pointer" tag="span"> 
+                   
+                    <span>Todos</span>
+                     
+                   
+              </router-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -19,7 +26,29 @@
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>
+              <router-link class="link" to="/about" style="cursor:pointer" tag="span"> 
+                   
+                    <span>About</span>
+                     
+                   
+              </router-link>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-contact-mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link class="link" to="/contact" style="cursor:pointer" tag="span"> 
+                   
+                    <span>Contact Us</span>
+                     
+                   
+              </router-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -36,6 +65,7 @@
       <v-toolbar-items>
 
         <router-link
+        class="navLink"
           v-for="item in items"
           :key="item.title"
           :to="item.to"
@@ -93,9 +123,29 @@
         User.logout();
         this.$router.push({name:'login'})
       });
+
       
     },
 
     
+
+    
   }
 </script>
+
+<style scoped>
+  .link {
+    margin: 5px;
+    border-radius: 4px;
+    background-color: inherit;
+    text-align: left;
+  }
+  .navLink {
+    margin: 10px;
+    border-radius: 4px;
+    background-color: inherit;
+    text-align: left;
+
+  }
+   
+</style>

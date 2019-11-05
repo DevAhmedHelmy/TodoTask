@@ -1,87 +1,87 @@
 <template>
 
-   
-    
-       <v-card style="margin: 0 10px 0 10px;">
+  <v-card>
      
     <v-list>
       <draggable v-model="cards" v-bind="{animation:200,group:'cards'}" @add="onAdd" style="min-height: 25px" v-on:listId="list.id">
 
-      <v-list-item v-for="card in cards" :key="card.id" :cardId="card.id">
+        <v-list-item class="tile" v-for="card in cards" :key="card.id" :cardId="card.id" >
          
 
-        <v-list-item-content>
-          <v-list-item-title v-text="card.name">
-                
+          <v-list-item-content >
+            <v-list-item-title v-text="card.name">
+                  
 
-            </v-list-item-title> 
-           
-        </v-list-item-content>
+              </v-list-item-title> 
+            
+          </v-list-item-content>
          
         
          
         
-        <!-- to show comment -->
-        <div class="text-center">
+          <!-- to show comment -->
+          <div class="text-center">
             <v-dialog
               v-model="dialog"
               width="500"
             >
-              
-        <template v-slot:activator="{ on }">
-                <v-btn 
-                  icon
-                  color="red lighten-2"
-                  dark
-                  v-on="on"
-                  @click.stop="fetchComments(card.id)"
-                >
-                  <v-icon>fas fa-eye</v-icon>
-                </v-btn>
-              </template> 
-              <v-card>
-                <v-card-title
-                  class="headline grey lighten-2"
-                  primary-title
-                >
-                  Show Card
-                </v-card-title>
-
-                <v-card-text>
-                  Card Name : {{card.name}}
-
-                  
-                </v-card-text>
-                <v-card-text>Card description : {{card.description}}</v-card-text>
-
-                <v-card-text>Comments : </v-card-text>
-                <v-card-text v-for="comment in comments" :key="comment.id">
-                  {{comment.comment}}
-                  {{comment.created_at}}
-                </v-card-text>
                 
-                <v-divider></v-divider>
+            <template v-slot:activator="{ on }">
+              <v-btn 
+                icon
+                color="purple darken-4"
+                dark
+                v-on="on"
+                @click.stop="fetchComments(card.id)"
+              >
+                <v-icon>fas fa-eye</v-icon>
+              </v-btn>
+            </template> 
+            <v-card>
+              <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+              >
+                Show Card
+              </v-card-title>
+
+              <v-card-text>
+                Card Name : {{card.name}}
+
+                
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-text>Card description : {{card.description}}</v-card-text>
+              <v-divider></v-divider>
+              <v-card-text>Comments : </v-card-text>
+              <v-card-text v-for="comment in comments" :key="comment.id">
+                {{comment.comment}}
+                {{comment.created_at}}
+              </v-card-text>
+                  
+              <v-divider></v-divider>
 
 
-                <v-list-tilte>
-                    <v-text-field @click.stop v-model="commentData.comment" label="Comment" v-if="showComment" @keyup.enter="storeComment()" ></v-text-field>
-                    
-                </v-list-tilte>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="primary"
-                    text
-                    @click="dialog = false"
-                  >
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
-          <v-icon color="red lighten-2" dark size="15px" @click.stop="deleteCard(card.id)">fas fa-trash-alt</v-icon> 
-      </v-list-item>
+              <v-card-text>
+                  <span>Add Comment</span>
+                  <v-text-field @click.stop v-model="commentData.comment" label="Comment" v-if="showComment" @keyup.enter="storeComment()" ></v-text-field>
+                  
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="dialog = false"
+                >
+                  Close
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+              </v-dialog>
+            </div>
+            <v-icon color="red accent-4" dark size="15px" @click.stop="deleteCard(card.id)">fas fa-trash-alt</v-icon> 
+        </v-list-item>
         
       </draggable>
       
@@ -90,8 +90,8 @@
         <v-text-field @click.stop v-model="cardData.name" label="Card Name" v-if="list.id==editCardId"></v-text-field>
         <v-text-field @click.stop v-model="cardData.description" label="Card description" v-if="list.id==editCardId"></v-text-field>
         <v-btn depressed small color="primary" v-if="list.id==editCardId" @click="createCard(list.id)">Add Card</v-btn>
-        <v-btn class="mx-2" @click="editCardId=list.id" v-else small dark color="indigo">
-          <v-icon dark >mdi-plus</v-icon>
+        <v-btn class="mx-2" @click="editCardId=list.id" v-else small dark color="purple darken-4">
+          <v-icon white>mdi-plus</v-icon>
         </v-btn>
         
       </v-list-tilte>
@@ -215,5 +215,12 @@ export default {
 </script>
 
 <style scoped>
-
+  .tile {
+    margin: 5px;
+    border-radius: 4px;
+    background: rgb(206, 198, 198);
+    color: white;
+    text-align: left;
+  }
+   
 </style>

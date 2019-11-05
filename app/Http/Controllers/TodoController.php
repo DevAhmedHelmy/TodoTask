@@ -40,9 +40,15 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
+    
+        $validator = \Validator::make($request->all(), ['name'=> 'required']);
         
-        $this->validate($request,['name'=>'required']);
-        
+        if ($validator->fails()) {
+    
+            //pass validator errors as errors object for ajax response
+
+          return response()->json(['errors'=>$validator->errors()]);
+        }
 
         // $newTodos = new Todo();
         // $newTodos->name = $request->name;

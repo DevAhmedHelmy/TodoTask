@@ -30,6 +30,18 @@ let routes = [
         name:'SingleTodo',
         component: require('../components/pages/SingleTodo.vue').default
     },
+
+    {
+        path: '/contact',
+        name:'contact',
+        component: require('../components/pages/Contact.vue').default
+    },
+
+    {
+        path: '/about',
+        name:'about',
+        component: require('../components/pages/About.vue').default
+    },
 ]
 
 export default new VueRouter({
