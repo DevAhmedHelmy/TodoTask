@@ -43,8 +43,5 @@ Route::group([
     Route::post('signup', 'AuthController@signup')->name('signup');
     Route::post('logout', 'AuthController@logout');
     
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-    Route::post('payload', 'AuthController@payload');
-    Route::get('/profile','AuthController@profile');
+   
 });
