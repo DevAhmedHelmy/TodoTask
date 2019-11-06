@@ -25,14 +25,21 @@
 
 
 <p>How to use</p>
+
 <p>Clone the repository with git clone</p>
+
 <p>Copy .env.example file to .env and edit database credentials there</p>
+
 <p>Run composer install</p>
+
 <p>Run php artisan key:generate</p>
+
 <p>php artisan jwt:secret</p>
+
 <p>Run php artisan migrate</p>
-<p>Run php artisan passport:install</p>
+ 
 <p>Run npm install</p>
+
 <p>Run npm run dev</p>
 
 
