@@ -2,8 +2,8 @@
 
   <v-card>
      
-    <v-list>
-       <draggable v-model="cards" :options="{group:'cards'}" @add="onAdd" :listId="list.id" style="min-height: 25px" >
+    <v-list class="grey lighten-3">
+       <draggable v-model="cards" :options="{group:'cards'}"  @add="onAdd($event, list)" style="min-height: 25px" >
 
         <v-list-item class="tile" v-for="card in cards" :key="card.id" :cardId="card.id" >
          
@@ -108,8 +108,9 @@
 
 
 <script>
-import draggable from 'vuedraggable';
 import Sortable from 'sortablejs';
+import draggable from 'vuedraggable';
+
  
  
 export default {
@@ -199,10 +200,14 @@ export default {
             // this.comments = response.data.data
         }).catch()
     },
-    onAdd(evt){
-      console.log(evt)
+   
+   onAdd(evt,list){
+
+    // let fromListId = evt.from.getAttribute('listId');
     let cardId = evt.item.getAttribute('cardId');
-    let toListId = evt.to.getAttribute('listId');
+  
+    
+    let toListId= list.id;
     this.updateCard(cardId,toListId);
   }
  

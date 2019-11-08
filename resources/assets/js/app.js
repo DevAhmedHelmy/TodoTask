@@ -6,6 +6,7 @@ import router from './Router/routes';
 
 
 
+Vue.config.productionTip = false
 Vue.component('AppHome', require('./components/AppHome').default);
  
 
