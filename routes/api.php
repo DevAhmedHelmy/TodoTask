@@ -29,6 +29,7 @@ Route::get('/comments/{card}','CommentController@show');
 
 // Route::apiResource('comments','CommentController');
 Route::get('/comments','CommentController@index');
+Route::post('/comments','CommentController@store');
 // Route::post('/comments','CommentController@store');
 // Route::put('/comments/{comment}','CommentController@store');
 

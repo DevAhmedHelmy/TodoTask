@@ -11,6 +11,10 @@ use Ramsey\Uuid\Generator\CombGenerator;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,11 +52,18 @@ class CommentController extends Controller
           return response()->json(['errors'=>$validator->errors()]);
         }
 
+     
+        $comment = auth()->user()->comments()->create([
+                'card_id' => $request->card_id,
+               'comment' => $request->comment
+             ]);
+        // Comment::create([
+        //     'user_id' => \Auth::user()->id,
+        //     'card_id' => $request->card_id,
+        //     'comment' => $request->comment
+        // ]);
 
-        // auth()->user()->comments()->create($request->all());
-        Comment::create($request->all());
-
-        return response('Created',Response::HTTP_ACCEPTED);
+        return response(['Created','comment'=>$comment, Response::HTTP_ACCEPTED]);
     }
 
     /**

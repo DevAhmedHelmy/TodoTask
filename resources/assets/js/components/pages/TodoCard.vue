@@ -127,7 +127,8 @@ export default {
       cardShow:false,
       cardShowData:'',
       comments:{},
-      showComment:false
+      showComment:false,
+      cardCommentId:''
        
       
     }
@@ -176,10 +177,7 @@ export default {
            
       })
     },
-    // to store comment
-      storeComment(cardId){
-        console.log(cardId);
-      },
+    
 
     // to get all comments
     getComments(){
@@ -190,6 +188,7 @@ export default {
     },
      fetchComments(cardId) {
        this.showComment = true;
+       this.cardCommentId = cardId;
         axios.get(`/api/comments/` + cardId)
         
             .then(response => {
@@ -200,6 +199,15 @@ export default {
             // this.comments = response.data.data
         }).catch()
     },
+
+    // to store comment
+      storeComment(){
+        axios.post('/api/comments',{card_id:this.cardCommentId, comment:this.commentData.comment})
+        .then(response => {
+           this.comments = response.data.comment,
+           fetchComments(comment.card_id)
+        })
+      },
    
    onAdd(evt,list){
 

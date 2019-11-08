@@ -129,9 +129,9 @@ class CardController extends Controller
     {
          
 
-        if (\Auth::user()->id !== $card->item->todo->user_id) {
-            return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
-        }
+        // if (\Auth::user()->id !== $card->item->todo->user_id) {
+        //     return response()->json(['status' => 'error', 'message' => 'unauthorized'], 401);
+        // }
 
         if ($card->delete()) {
             return response()->json(['status' => 'success', 'message' => 'Card Deleted Successfully']);
